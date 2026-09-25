@@ -1,0 +1,6 @@
+EVIDENCIA: GA7-220501096-AA5-EV01 - Diseño y desarrollo de servicios web - caso
+PROYECTO: EduFamilias - Servicio Web de Autenticación
+APRENDIZ: Elver Enrique Gonzalez Sulbaran - Daniela Carolina Hernandez Cedano
+Instructor: Fernando Forero Gomez
+Ficha: 3235892
+REPOSITORIO GITHUB: https://github.com/gesesgug/EduFamilias-AuthAPI.git

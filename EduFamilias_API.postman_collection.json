@@ -1,0 +1,43 @@
+{
+  "info": {
+    "_postman_id": "3521f1ee-0018-4d34-bf80-936c75e02506",
+    "name": "EduFamilias API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58506115",
+    "_collection_link": "https://go.postman.co/collection/58506115-3521f1ee-0018-4d34-bf80-936c75e02506?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Registro de usuario",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Regitro de usuario 2",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Inicio de sesion",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "inicio de sesion 2",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
