@@ -1,68 +1,87 @@
-// Llamamos a nuestros dos ayudantes
 const express = require('express');
-const bodyParser = require('body-parser');
-
 const app = express();
-const PORT = 3000; // La puerta de entrada a nuestra cocina
+const PORT = process.env.PORT || 3000;
 
-// Le decimos al traductor que prepare todo para entender notas JSON
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Esta será nuestra "caja de juguetes" donde guardaremos los usuarios registrados
-const usuariosDB = [];
+// Bases de datos temporales en memoria
+let usuariosDB = [];
+let estudiantesDB = [
+  { id: 1, nombre: "Juan Pérez", grado: "8A", acudiente: "padre@edufamilias.edu.co" }
+];
+let observacionesDB = [];
+let citacionesDB = [];
+
+// ==========================================
+// 1. MÓDULO DE AUTENTICACIÓN (Auth API)
+// ==========================================
 app.post('/api/register', (req, res) => {
-    // Leemos el usuario y la clave que nos enviaron
-    const { usuario, contrasena } = req.body;
-
-    // Regla 1: Si no nos enviaron el usuario o la clave, nos quejamos
-    if (!usuario || !contrasena) {
-        return res.status(400).json({
-            estado: 'error',
-            mensaje: 'Por favor escribe un usuario y una contraseña'
-        });
-    }
-
-    // Regla 2: Revisamos si esa persona ya estaba guardada en nuestra caja
-    const usuarioExiste = usuariosDB.find(u => u.usuario === usuario);
-    if (usuarioExiste) {
-        return res.status(400).json({
-            estado: 'error',
-            mensaje: '¡Este usuario ya existe!'
-        });
-    }
-
-    // Si todo está bien, lo guardamos en la caja
-    usuariosDB.push({ usuario, contrasena });
-
-    return res.status(201).json({
-        estado: 'exito',
-        mensaje: '¡Te has registrado con éxito en EduFamilias!'
-    });
+  const { usuario, contrasena, rol } = req.body;
+  if (!usuario || !contrasena) {
+    return res.status(400).json({ estado: "error", mensaje: "Faltan campos obligatorios" });
+  }
+  const existe = usuariosDB.find(u => u.usuario === usuario);
+  if (existe) {
+    return res.status(400).json({ estado: "error", mensaje: "El usuario ya existe" });
+  }
+  const nuevoUsuario = { id: usuariosDB.length + 1, usuario, contrasena, rol: rol || "Acudiente" };
+  usuariosDB.push(nuevoUsuario);
+  res.status(201).json({ estado: "exito", mensaje: "Usuario registrado con éxito", usuario: nuevoUsuario });
 });
+
 app.post('/api/login', (req, res) => {
-    const { usuario, contrasena } = req.body;
-
-    // Buscamos en la caja si existe alguien con ESE usuario y ESA clave
-    const usuarioValido = usuariosDB.find(
-        u => u.usuario === usuario && u.contrasena === contrasena
-    );
-
-    // Si lo encontramos en la caja:
-    if (usuarioValido) {
-        return res.status(200).json({
-            estado: 'exito',
-            mensaje: 'Autenticación satisfactoria. ¡Bienvenido a EduFamilias!'
-        });
-    } else {
-        // Si no existe o la clave está mal:
-        return res.status(401).json({
-            estado: 'error',
-            mensaje: 'Error en la autenticación: usuario o contraseña incorrectos'
-        });
-    }
+  const { usuario, contrasena } = req.body;
+  const user = usuariosDB.find(u => u.usuario === usuario && u.contrasena === contrasena);
+  if (user) {
+    res.status(200).json({ estado: "exito", mensaje: `Bienvenido a EduFamilias (${user.rol})`, rol: user.rol });
+  } else {
+    res.status(401).json({ estado: "error", mensaje: "Credenciales incorrectas" });
+  }
 });
 
-// Le decimos al servidor que empiece a escuchar en la puerta 3000
+// ==========================================
+// 2. MÓDULO DE ESTUDIANTES (CRUD API)
+// ==========================================
+app.get('/api/estudiantes', (req, res) => {
+  res.status(200).json({ estado: "exito", datos: estudiantesDB });
+});
+
+app.post('/api/estudiantes', (req, res) => {
+  const { nombre, grado, acudiente } = req.body;
+  if (!nombre || !grado) {
+    return res.status(400).json({ estado: "error", mensaje: "Nombre y grado son obligatorios" });
+  }
+  const nuevoEstudiante = { id: estudiantesDB.length + 1, nombre, grado, acudiente };
+  estudiantesDB.push(nuevoEstudiante);
+  res.status(201).json({ estado: "exito", mensaje: "Estudiante registrado", estudiante: nuevoEstudiante });
+});
+
+app.delete('/api/estudiantes/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = estudiantesDB.findIndex(e => e.id === id);
+  if (index !== -1) {
+    estudiantesDB.splice(index, 1);
+    res.status(200).json({ estado: "exito", mensaje: "Estudiante eliminado correctamente" });
+  } else {
+    res.status(404).json({ estado: "error", mensaje: "Estudiante no encontrado" });
+  }
+});
+
+// ==========================================
+// 3. MÓDULO DE OBSERVACIONES (Seguimiento)
+// ==========================================
+app.get('/api/observaciones', (req, res) => {
+  res.status(200).json({ estado: "exito", datos: observacionesDB });
+});
+
+app.post('/api/observaciones', (req, res) => {
+  const { estudianteId, docente, detalle } = req.body;
+  const nuevaObs = { id: observacionesDB.length + 1, estudianteId, docente, detalle, fecha: new Date().toLocaleDateString() };
+  observacionesDB.push(nuevaObs);
+  res.status(201).json({ estado: "exito", mensaje: "Observación registrada", observacion: nuevaObs });
+});
+
+// Inicio del servidor
 app.listen(PORT, () => {
-    console.log(`El mesero está listo esperando en el puerto http://localhost:${PORT}`);
+  console.log(`Servidor de EduFamilias corriendo en http://localhost:${PORT}`);
 });

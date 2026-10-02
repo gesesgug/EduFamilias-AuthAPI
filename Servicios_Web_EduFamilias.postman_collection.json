@@ -1,0 +1,160 @@
+{
+  "info": {
+    "_postman_id": "024fd5a6-fd47-4319-8dcd-9672b81a31ca",
+    "name": "Servicios_Web_EduFamilias",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58506115",
+    "_collection_link": "https://go.postman.co/collection/58506115-024fd5a6-fd47-4319-8dcd-9672b81a31ca?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "nuevo usuario",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"usuario\": \"docente@edufamilias.edu.co\",\r\n  \"contrasena\": \"123456\",\r\n  \"rol\": \"Docente\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "lista de estudiantes",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"estado\": \"exito\",\r\n  \"datos\": [\r\n    { \"id\": 1, \"nombre\": \"Juan Pérez\", \"grado\": \"8A\", \"acudiente\": \"padre@edufamilias.edu.co\" }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/estudiantes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "estudiantes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "nuevo estudiante",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\": \"Maria Gomez\",\r\n    \"grado\": \"9B\",\r\n    \"acudiente\": \"mama@edufamilias.edu.co\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/estudiantes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "estudiantes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "registro de observacion",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"estudianteId\": 1,\r\n    \"docente\": \"docente@edufamilias.edu.co\",\r\n    \"detalle\": \"Excelente participacion en la clase de desarrollo web.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/observaciones",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "observaciones"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "eliminar un estudiante por ID",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"estado\": \"exito\",\r\n    \"mensaje\": \"Estudiante eliminado correctamente\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/estudiantes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "estudiantes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
