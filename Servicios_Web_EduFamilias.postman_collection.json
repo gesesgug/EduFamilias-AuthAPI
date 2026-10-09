@@ -37,6 +37,17 @@
       "response": []
     },
     {
+      "name": "autenticacion de usuario",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
       "name": "lista de estudiantes",
       "protocolProfileBehavior": {
         "disableBodyPruning": true
